@@ -15,10 +15,10 @@ const initialState = {
     //   error: null,
     //   user: "",
     //   token: null,
-    //   users:{},
     //   adminUser:{},
     //   mailsent:null,
     isLoggedIn: false,
+    users:{},
     email: null,
     userName: null,
     userId: null,
@@ -147,6 +147,10 @@ export const userSlice = createSlice({
             state.email = null;
             state.userName = null;
             state.userId = null;
+        },
+        setUsers(state) {
+            const { UsersArray } = action.payload;
+            state.users = UsersArray;
         },
     },
     extraReducers: (builder) => {

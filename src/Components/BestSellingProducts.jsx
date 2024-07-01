@@ -35,6 +35,7 @@ export default function BestSellingProducts() {
     }
 
     return (
+    
 
         <div>
             <div className='mx-32 py-3 md:text-left sm:text-center text-center '>
