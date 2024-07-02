@@ -1,4 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../Firebase/Config";
 // import {
 //   loadUserRequestApi,
 //   logoutRequestApi,
@@ -27,13 +29,13 @@ const initialState = {
     role:null,
 };
 
-// export const loginRequest = createAsyncThunk(
-//     "user/loginRequest",
-//     async (value) => {
-//         const response = await loginRequestApi(value);
-//         return response.data;
-//     }
-// );
+export const FetchAllUsers = createAsyncThunk(
+    "user/FetchAllUsers",
+    async (value) => {
+        const response = await getDocs(collection(db, "Users")); 
+        return response;
+    }
+);
 
 // export const SignUpRequest = createAsyncThunk(
 //     "user/SignUpRequest",
@@ -148,27 +150,19 @@ export const userSlice = createSlice({
             state.userName = null;
             state.userId = null;
         },
-        setUsers(state) {
-            const { UsersArray } = action.payload;
-            state.users = UsersArray;
-        },
     },
     extraReducers: (builder) => {
-        // builder
-        // .addCase(loginRequest.pending, (state) => {
-        //     state.status = "loading";
-        // })
-        // .addCase(loginRequest.fulfilled, (state, action) => {
-        //     const { token, user } = action.payload;
-        //     state.status = "authenticated";
-        //     state.token = token;
-        //     state.message = "Login successful";
-        //     state.user = user;
-        // })
-        // .addCase(loginRequest.rejected, (state, action) => {
-        //     state.status = "error";
-        //     state.error = action.error.message;
-        // })
+        builder
+        .addCase(FetchAllUsers.pending, (state) => {
+        })
+        .addCase(FetchAllUsers.fulfilled, (state, action) => {
+            const querySnapshot = action.payload;
+            const users = querySnapshot.docs.map(doc => doc.data());
+            console.log(users);
+            state.users = users;
+        })
+        .addCase(FetchAllUsers.rejected, (state, action) => {
+        })
         // .addCase(SignUpRequest.pending, (state) => {
         //     state.status = "loading";
         // })

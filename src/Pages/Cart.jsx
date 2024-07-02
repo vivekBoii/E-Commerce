@@ -119,17 +119,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// Example product data structure
-const products = [
-  { id: 1, name: 'Product 1', price: 10.99 },
-  { id: 2, name: 'Product 2', price: 15.99 },
-  { id: 3, name: 'Product 3', price: 20.99 },
-];
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
 
-  // Function to handle adding items to the cart
   const handleAddToCart = (product) => {
     const existingItem = cartItems.find((item) => item.id === product.id);
     if (existingItem) {
@@ -170,7 +163,7 @@ function Cart() {
   useEffect(() => {
     // Assuming you have a way to fetch product data from an API or database
     // Here, we're just setting the initial cart items using the products array
-    const cart = JSON.parse(localStorage.getItem("cartItems"));
+    let cart = JSON.parse(localStorage.getItem("cartItems"));
     setCartItems(cart);
     console.log(cart)
 
@@ -179,11 +172,11 @@ function Cart() {
   return (
     <div className="container mx-auto px-4 py-16">
       <h2 className="text-3xl font-bold mb-8">Your Shopping Cart</h2>
-      {cartItems.length === 0 ? (
+      {!cartItems ? (
         <p className="text-center text-gray-500">Your cart is empty.</p>
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {cartItems.map((item, count) => (
+          {cartItems && cartItems.map((item, count) => (
 
             <li key={count} className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="p-4 flex items-center">
@@ -219,7 +212,7 @@ function Cart() {
         </ul>
       )}
 
-      {cartItems.length > 0 && (
+      {cartItems && cartItems.length > 0 && (
         <div className="cart-summary mt-8 bg-white p-6 rounded-lg shadow-md">
           <p className="text-xl font-bold">Total: ${calculateTotalPrice().toFixed(2)}</p>
           <Link to="/Checkout" className="block mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">

@@ -23,6 +23,8 @@ import ProductListAdmin from "./Pages/ProductListAdmin";
 import OrdersAdmin from "./Pages/OrdersAdmin";
 import UsersAdmin from "./Pages/UsersAdmin";
 import ReviewAdmin from "./Pages/ReviewAdmin";
+import Payment from "./Pages/Payment";
+import AllProductAdmin from "./Pages/AllProductAdmin";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +60,7 @@ function App() {
             <Route path='auth/Login' element={<Login />} />
             <Route path='auth/Reset' element={<Resetpassword />} />
             <Route path='admin/product/new' element={<AddProductForm/>} />
+            <Route path='admin/product' element={<AllProductAdmin/>} />
             <Route path='product' element={<Products/>} />
             <Route path='cart' element={<Cart/>} />
             <Route path='profile' element={<User/>} />
@@ -68,6 +71,7 @@ function App() {
             <Route path='/admin/orders' element={<OrdersAdmin/>} />
             <Route path='/admin/users' element={<UsersAdmin/>} />
             <Route path='/admin/review' element={<ReviewAdmin/>} />
+            <Route path='/payment' element={<Payment/>} />
             {/* <Route path='resumeTemplates' element={<ResumeTemplates />} />
             <Route path='create' element={<Create />} />
             <Route path='create/template1' element={<Template1 />} />

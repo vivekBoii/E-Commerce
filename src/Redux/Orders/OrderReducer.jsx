@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../Firebase/Config";
 // import {
 //   loadUserRequestApi,
@@ -13,24 +13,14 @@ import { db } from "../../Firebase/Config";
 // } from "./UserApi";
 
 const initialState = {
-    wishlist:[],
-    product:[],
+    orders:[]
 };
 
 
-export const AddToWishList = createAsyncThunk(
-    "product/AddToWishlist",
+export const FetchAllOrders = createAsyncThunk(
+    "product/FetchAllOrders",
     async (value) => {
-        await updateDoc(doc(db, "Users",value.userId ),{wishList : [value]});
-        return value;
-    }
-);
-
-export const FetchAllProduct = createAsyncThunk(
-    "user/FetchAllProduct",
-    async (value) => {
-        const response = await getDocs(collection(db, "Products")); 
-        console.log(response);
+        const response = await getDocs(collection(db, "Orders")); 
         return response;
     }
 );
@@ -128,8 +118,8 @@ export const FetchAllProduct = createAsyncThunk(
 
 
 
-export const productSlice = createSlice({
-    name: "user",
+export const orderSlice = createSlice({
+    name: "Order",
     initialState,
     reducers: {
         setProduct(state, action) {
@@ -139,20 +129,14 @@ export const productSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(AddToWishList.pending, (state) => {
+        .addCase(FetchAllOrders.pending, (state) => {
         })
-        .addCase(AddToWishList.fulfilled, (state, action) => {
-        })
-        .addCase(AddToWishList.rejected, (state, action) => {
-        })
-        .addCase(FetchAllProduct.pending, (state) => {
-        })
-        .addCase(FetchAllProduct.fulfilled, (state, action) => {
+        .addCase(FetchAllOrders.fulfilled, (state, action) => {
             const querySnapshot = action.payload;
-            const product = querySnapshot.docs.map(doc => doc.data());
-            state.product = product;
+            const orders = querySnapshot.docs.map(doc => doc.data());
+            state.orders = orders;
         })
-        .addCase(FetchAllProduct.rejected, (state, action) => {
+        .addCase(FetchAllOrders.rejected, (state, action) => {
         })
         // .addCase(SignUpRequest.pending, (state) => {
         //     state.status = "loading";
@@ -272,6 +256,6 @@ export const productSlice = createSlice({
 });
 
 export const { setProduct
-} = productSlice.actions;
+} = orderSlice.actions;
 
-export default productSlice.reducer;
+export default orderSlice.reducer;
